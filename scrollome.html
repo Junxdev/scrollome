@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> Title </title>
     <style type="text/css">
-        body {
-/*            background-color: black;*/
+        * {
+            margin: 0px;
         }
-        
+
+        body {
+            /*            background-color: black;*/
+        }
+
         #back::-webkit-scrollbar {
             display: none;
         }
@@ -25,18 +30,26 @@
         }
 
         #easel {
-            background-color: antiquewhite;
+            background-color: rgba(200, 30, 30, 0.5);
             width: 100%;
             height: 38001px;
-            opacity: 0;
         }
 
-        #main {
-/*            position: fixed;*/
+        #faster {
+            /*            position: fixed;*/
             width: 100px;
             height: 100px;
             line-height: 100px;
-            margin: 100px auto;
+            margin: 100px auto 0px auto;
+            text-align: center;
+        }
+
+        #now {
+            /*            position: fixed;*/
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            margin: 0px auto;
             text-align: center;
         }
 
@@ -45,34 +58,58 @@
             font-weight: 900;
             font-size: 150px;
         }
+
     </style>
     <script type="text/javascript" src="js/jquery-1.12.4.js"></script>
     <script type="text/javascript">
         var bpm;
+        var beep;
+        var before;
+
+        function beepbeep() {
+            beep.play();
+            console.log('bpm : ' + bpm);
+            console.log('before : ' + before);
+            if (bpm == before) return;
+            setTimeout(beepbeep, (60 / bpm) * 1000);
+        };
         $(document).ready(function() {
+            beep = document.querySelector('#beep');
             console.log('READY');
             document.querySelector('#back').scrollTo(0, 28000);
-            //             $('#main').html('<p id="bpm">' + bpm + '</p>');
-            
+            //$('#main').html('<p id="bpm">' + bpm + '</p>');
+            bpm = 120;
             $('#back').scroll(function(e) {
-                var before = bpm;
+                before = bpm;
                 bpm = 400 - Math.round($(this).scrollTop() / 100);
-                if(before != bpm) {
-                    
+                if (before != bpm) {
+                    console.log(bpm);
+                    console.log('moment!');
+
+                    beepbeep();
+                    $('#now').html('<p id="bpm">' + bpm + '</p>');
                 }
-                console.log(bpm);
-                $('#main').html('<p id="bpm">' + bpm + '</p>');
             });
         });
+
     </script>
 </head>
 
 <body>
-            <div id="main">
-            </div>
-                
+    <div>
+        <div id="faster"></div>
+        <div id="now"></div>
+        <div id="slower"></div>
+        <div>
+            <audio id="beep">
+                <source src="rsc/beep.wav" type="audio/wav">
+            </audio>
+        </div>
+    </div>
     <div id="back">
         <div id="easel">
         </div>
     </div>
-</body></html>
+</body>
+
+</html

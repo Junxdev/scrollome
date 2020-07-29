@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Title </title>
+    <style type="text/css">
+        body {
+/*            background-color: black;*/
+        }
+        
+        #back::-webkit-scrollbar {
+            display: none;
+        }
+
+        #back {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            overflow: scroll;
+            opacity: 1;
+        }
+
+        #easel {
+            background-color: antiquewhite;
+            width: 100%;
+            height: 38001px;
+            opacity: 0;
+        }
+
+        #main {
+/*            position: fixed;*/
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        #bpm {
+            font-family: D2Coding;
+            font-weight: 900;
+            font-size: 150px;
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+    <script type="text/javascript">
+        var bpm;
+        $(document).ready(function() {
+            console.log('READY');
+            document.querySelector('#back').scrollTo(0, 28000);
+            //             $('#main').html('<p id="bpm">' + bpm + '</p>');
+            
+            $('#back').scroll(function(e) {
+                var before = bpm;
+                bpm = 400 - Math.round($(this).scrollTop() / 100);
+                if(before != bpm) {
+                    
+                }
+                console.log(bpm);
+                $('#main').html('<p id="bpm">' + bpm + '</p>');
+            });
+        });
+    </script>
+</head>
+
+<body>
+            <div id="main">
+            </div>
+                
+    <div id="back">
+        <div id="easel">
+        </div>
+    </div>
+</body></html>

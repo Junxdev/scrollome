@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> Title </title>
+    <link rel="icon" href="rsc/favicon2.ico" type="image/gif" sizes="16x16">
     <style type="text/css">
         * {
             margin: 0px;
@@ -62,31 +63,72 @@
     </style>
     <script type="text/javascript" src="js/jquery-1.12.4.js"></script>
     <script type="text/javascript">
-        var bpm;
         var beep;
         var before;
+        var bpm;
 
-        function beepbeep() {
-            beep.play();
-            console.log('bpm : ' + bpm);
+        var turnoff = true;
+        var toast = function(a) {
+            console.log('toast ' + a);
+        };
+
+        function beepbeep(a, b) {
+            if (bpm != b) {
+                console.log('bpm has changed!');
+                return;
+            }
+            if (turnoff) {
+                console.log('Turn off!');
+                return;
+            }
+//            beep.play();
+            $('#beep').trigger('play');
+            console.log('turnoff : ' + turnoff);
+            console.log('a : ' + a);
+            console.log('b : ' + b);
             console.log('before : ' + before);
-            if (bpm == before) return;
-            setTimeout(beepbeep, (60 / bpm) * 1000);
+            setTimeout(beepbeep, (60 / a) * 1000, a, b);
         };
         $(document).ready(function() {
+            var start = beepbeep;
+            var t = 3;
             beep = document.querySelector('#beep');
             console.log('READY');
             document.querySelector('#back').scrollTo(0, 28000);
             //$('#main').html('<p id="bpm">' + bpm + '</p>');
             bpm = 120;
+            $('#now').html('<p id="bpm">' + bpm + '</p>');
+            $('#easel').on('click', function() {
+                turnoff = !turnoff;
+                if (!turnoff) {
+                    start(bpm, bpm);
+
+                }
+                //                if(turn == true) {
+                //                console.log('true' + turn);
+                //                    t = 0;
+                //                    toast(t);
+                //                    y(bpm, bpm);
+                //                } else {
+                //                    y(1, 2);
+                //                    t = 1;
+                //                    toast(t);
+                //                console.log('false' + turn);
+                //                console.log(bpm);
+                //                console.log(bpm + 1);
+                //                    
+                //                }
+            });
             $('#back').scroll(function(e) {
+//            $('#beep').attr("muted", false);
                 before = bpm;
                 bpm = 400 - Math.round($(this).scrollTop() / 100);
                 if (before != bpm) {
+                    turnoff = false;
                     console.log(bpm);
                     console.log('moment!');
 
-                    beepbeep();
+                    start(bpm, bpm);
                     $('#now').html('<p id="bpm">' + bpm + '</p>');
                 }
             });
@@ -101,6 +143,7 @@
         <div id="now"></div>
         <div id="slower"></div>
         <div>
+<!--            <audio id="beep" muted="muted">-->
             <audio id="beep">
                 <source src="rsc/beep.wav" type="audio/wav">
             </audio>

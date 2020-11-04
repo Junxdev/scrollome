@@ -1,158 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> Title </title>
-    <link rel="icon" href="rsc/favicon2.ico" type="image/gif" sizes="16x16">
+    <title>Scrollome</title>
+    <link rel="icon" href="resource/favicon2.ico" type="image/gif" sizes="16x16">
     <style type="text/css">
-        * {
-            margin: 0px;
-        }
-
-        body {
-            /*            background-color: black;*/
-        }
-
-        #back::-webkit-scrollbar {
-            display: none;
-        }
-
-        #back {
+        body > div {
             position: fixed;
             left: 0px;
             top: 0px;
+            margin: 0;
             width: 100%;
             height: 100%;
             overflow: scroll;
-            opacity: 1;
+            background-color: azure;
         }
-
-        #easel {
-            background-color: rgba(200, 30, 30, 0.5);
+        body > div::-webkit-scrollbar {
+            /* display: none; */
+        }
+        #bpm_board {
+            position: fixed;
+            top: 35%;
             width: 100%;
-            height: 38001px;
-        }
-
-        #faster {
-            /*            position: fixed;*/
-            width: 100px;
-            height: 100px;
-            line-height: 100px;
-            margin: 100px auto 0px auto;
+            height: 10%;
+            background-color: aqua;
             text-align: center;
         }
-
-        #now {
-            /*            position: fixed;*/
-            width: 100px;
-            height: 100px;
-            line-height: 100px;
-            margin: 0px auto;
-            text-align: center;
+        #bpm_board p {
+            margin: 0;
+            font-size: 3em;
         }
-
-        #bpm {
-            font-family: D2Coding;
-            font-weight: 900;
-            font-size: 150px;
+        #scroll_box {
+            position: absolute;
+            width: 100%;
+            height: 32601px;
+            background-color: antiquewhite;
+            z-index: 1;
+            opacity: 0;
         }
-
     </style>
-    <script type="text/javascript" src="js/jquery-1.12.4.js"></script>
     <script type="text/javascript">
-        var beep;
-        var before;
-        var bpm;
-
-        var turnoff = true;
-        var toast = function(a) {
-            console.log('toast ' + a);
-        };
-
-        function beepbeep(a, b) {
-            if (bpm != b) {
-                console.log('bpm has changed!');
-                return;
-            }
-            if (turnoff) {
-                console.log('Turn off!');
-                return;
-            }
-//            beep.play();
-            $('#beep').trigger('play');
-            console.log('turnoff : ' + turnoff);
-            console.log('a : ' + a);
-            console.log('b : ' + b);
-            console.log('before : ' + before);
-            setTimeout(beepbeep, (60 / a) * 1000, a, b);
-        };
-        $(document).ready(function() {
-            var start = beepbeep;
-            var t = 3;
-            beep = document.querySelector('#beep');
-            console.log('READY');
-            document.querySelector('#back').scrollTo(0, 28000);
-            //$('#main').html('<p id="bpm">' + bpm + '</p>');
-            bpm = 120;
-            $('#now').html('<p id="bpm">' + bpm + '</p>');
-            $('#easel').on('click', function() {
-                turnoff = !turnoff;
-                if (!turnoff) {
-                    start(bpm, bpm);
-
-                }
-                //                if(turn == true) {
-                //                console.log('true' + turn);
-                //                    t = 0;
-                //                    toast(t);
-                //                    y(bpm, bpm);
-                //                } else {
-                //                    y(1, 2);
-                //                    t = 1;
-                //                    toast(t);
-                //                console.log('false' + turn);
-                //                console.log(bpm);
-                //                console.log(bpm + 1);
-                //                    
-                //                }
-            });
-            $('#back').scroll(function(e) {
-//            $('#beep').attr("muted", false);
-                before = bpm;
-                bpm = 400 - Math.round($(this).scrollTop() / 100);
-                if (before != bpm) {
-                    turnoff = false;
-                    console.log(bpm);
-                    console.log('moment!');
-
-                    start(bpm, bpm);
-                    $('#now').html('<p id="bpm">' + bpm + '</p>');
-                }
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            var ground = document.querySelector('body > div');
+            var scroll_box = document.querySelector('#scroll_box');
+            var bpm_board = document.querySelector('#bpm_board p');
+            ground.scrollTo(0, 11900);
+            ground.addEventListener('scroll', function() {
+                last_height = Math.round(ground.scrollTop / 100) + 1;
+                console.log(last_height);
+                bpm_board.innerText = last_height;
+            })
         });
-
     </script>
 </head>
-
 <body>
     <div>
-        <div id="faster"></div>
-        <div id="now"></div>
-        <div id="slower"></div>
-        <div>
-<!--            <audio id="beep" muted="muted">-->
-            <audio id="beep">
-                <source src="rsc/beep.wav" type="audio/wav">
-            </audio>
+        <div id="bpm_board">
+            <p>120</p>
         </div>
-    </div>
-    <div id="back">
-        <div id="easel">
+        
+        <div id="scroll_box">
         </div>
     </div>
 </body>
-
-</html
+</html>
